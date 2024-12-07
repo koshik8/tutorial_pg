@@ -8,8 +8,8 @@ class TutorialViewModel {
   late TutorialCoachMark tutorialCoachMark;
   List<TargetFocus> targets = [];
   int currentIndex = 0;
-  static bool isTutorialDone = false;
-  late Function updateMethod;
+  static bool isTutorialShown = false;
+  
 
   void initTargets(List<TutorialTarget> tutorialTargets, Function childBuilder) {
     targets = tutorialTargets
@@ -17,10 +17,10 @@ class TutorialViewModel {
         .toList();
   }
 
-  void showTutorial(BuildContext context, {required VoidCallback onFinish}) {
+  void showTutorial(BuildContext context,{int con=0,required VoidCallback onFinish}) {
     tutorialCoachMark = TutorialCoachMark(
       hideSkip: true,
-      targets: targets,
+      targets: (con==0)?targets:targets.sublist(con)+targets.sublist(0,con),
       colorShadow: Colors.black.withOpacity(0.8),
       paddingFocus: 10,
       opacityShadow: 0.8,
@@ -39,6 +39,10 @@ class TutorialViewModel {
       currentIndex++;
       tutorialCoachMark.next();
     }
+    else{
+      currentIndex = 0;
+    tutorialCoachMark.goTo(currentIndex);
+    }
   }
 
   void previous() {
@@ -46,20 +50,34 @@ class TutorialViewModel {
       currentIndex--;
       tutorialCoachMark.previous();
     }
+    else{
+      currentIndex = 4;
+    tutorialCoachMark.goTo(currentIndex);
+    }
   }
 
   void skip() {
+    isTutorialShown = true;
     tutorialCoachMark.skip();
   }
 
-  void  nextPg(BuildContext context) {
+  Future <bool>  nextPg(BuildContext context) async{
     tutorialCoachMark.finish();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => NextPg(),));
+    final bool res = await Navigator.push(context, MaterialPageRoute(builder: (context) => NextPg(),)) as bool;
+    if (res == true){
+      currentIndex = 0;
+      return true;
+    }
+    return false;
   }
 
-  void setmethod(Function method){
-    updateMethod = method;
-  }
+  
 
+  void disp1(BuildContext context){
+    showTutorial(context, con:4,onFinish: () {
+                      print("Tutorial finished");
+                    });
+    
+  }
   
 }

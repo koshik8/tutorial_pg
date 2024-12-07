@@ -57,7 +57,7 @@ class _NextPgState extends State<NextPg> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: viewModel.skip,
+              onPressed:()=> viewModel.skip1(context),
               icon: const Icon(Icons.close, color: Colors.blue),
             ),
           ],
@@ -94,7 +94,7 @@ class _NextPgState extends State<NextPg> {
               ),
             if (!showNext)
               ElevatedButton(
-                  onPressed: () => {viewModel.complete()},
+                  onPressed: () => {viewModel.skip1(context)},
                   child: Text('Done'),
                   style: TextButton.styleFrom(
                       backgroundColor: Colors.blue,

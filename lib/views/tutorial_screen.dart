@@ -58,19 +58,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
       viewModel.showTutorial(context, onFinish: () {
         print("Tutorial finished");
       });
-      viewModel.setmethod(reinit);
+      
     });
   }
 
-  void reinit() {
-    setState(() {
-      print("reinit");
-      viewModel.initTargets(tutorialTargets, tutorialContent);
-      viewModel.showTutorial(context, onFinish: () {
-        print("Tutorial finished");
-      });
-    });
-  }
   
 
   Widget tutorialContent(String text, bool showNext, bool showPrevious) {
@@ -112,7 +103,14 @@ class _TutorialScreenState extends State<TutorialScreen> {
               ),
             if (!showNext)
               IconButton(
-                onPressed: () => {viewModel.nextPg(context)},
+                onPressed: () async {
+                  final bool rest = await viewModel.nextPg(context);
+                  if (rest == true) {
+                    viewModel.initTargets(tutorialTargets, tutorialContent);
+                    
+                    viewModel.disp1(context);
+                  }
+                },
                 icon: const Icon(Icons.arrow_circle_right),
                 iconSize: 32,
                 color: Colors.blue,
