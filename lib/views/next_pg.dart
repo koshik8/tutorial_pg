@@ -49,60 +49,66 @@ class _NextPgState extends State<NextPg> {
   }
 
   Widget tutorialContent(String text, bool showNext, bool showPrevious) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              onPressed:()=> viewModel.skip1(context),
-              icon: const Icon(Icons.close, color: Colors.blue),
+    return Container(
+      color: Colors.white,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed:()=> viewModel.skip1(context),
+                icon: const Icon(Icons.close, color: Colors.blue),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              text,
+              style: const TextStyle(
+                  color: Colors.blue, fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          ],
-        ),
-        Text(
-          text,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            if (showPrevious)
-              IconButton(
-                onPressed: viewModel.previous,
-                icon: const Icon(Icons.arrow_circle_left),
-                iconSize: 32,
-                color: Colors.blue,
-              ),
-            if (!showPrevious)
-              IconButton(
-                onPressed: () => {viewModel.prevpg(context)},
-                icon: const Icon(Icons.arrow_circle_left),
-                iconSize: 32,
-                color: Colors.blue,
-              ),
-            if (showNext)
-              IconButton(
-                onPressed: viewModel.next,
-                icon: const Icon(Icons.arrow_circle_right),
-                iconSize: 32,
-                color: Colors.blue,
-              ),
-            if (!showNext)
-              ElevatedButton(
-                  onPressed: () => {viewModel.skip1(context)},
-                  child: Text('Done'),
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white))),
-          ],
-        ),
-      ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              if (showPrevious)
+                IconButton(
+                  onPressed: viewModel.previous,
+                  icon: const Icon(Icons.arrow_circle_left),
+                  iconSize: 32,
+                  color: Colors.blue,
+                ),
+              if (!showPrevious)
+                IconButton(
+                  onPressed: () => {viewModel.prevpg(context)},
+                  icon: const Icon(Icons.arrow_circle_left),
+                  iconSize: 32,
+                  color: Colors.blue,
+                ),
+              if (showNext)
+                IconButton(
+                  onPressed: viewModel.next,
+                  icon: const Icon(Icons.arrow_circle_right),
+                  iconSize: 32,
+                  color: Colors.blue,
+                ),
+              if (!showNext)
+                ElevatedButton(
+                    onPressed: () => {viewModel.skip1(context)},
+                    child: Text('Done'),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white))),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
