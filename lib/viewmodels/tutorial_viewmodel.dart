@@ -2,11 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../models/tutorial_target.dart';
+import '../views/next_pg.dart';
 
 class TutorialViewModel {
   late TutorialCoachMark tutorialCoachMark;
   List<TargetFocus> targets = [];
   int currentIndex = 0;
+  static bool isTutorialDone = false;
+  late Function updateMethod;
 
   void initTargets(List<TutorialTarget> tutorialTargets, Function childBuilder) {
     targets = tutorialTargets
@@ -25,7 +28,10 @@ class TutorialViewModel {
       onClickTarget: (target) {
         currentIndex = targets.indexWhere((t) => t.identify == target.identify);
       },
-    )..show(context: context);
+    );
+    if (!tutorialCoachMark.isShowing) {
+    tutorialCoachMark.show(context: context);
+  }
   }
 
   void next() {
@@ -45,4 +51,15 @@ class TutorialViewModel {
   void skip() {
     tutorialCoachMark.skip();
   }
+
+  void  nextPg(BuildContext context) {
+    tutorialCoachMark.finish();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => NextPg(),));
+  }
+
+  void setmethod(Function method){
+    updateMethod = method;
+  }
+
+  
 }

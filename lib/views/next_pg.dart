@@ -41,7 +41,8 @@ class _NextPgState extends State<NextPg> {
       ];
 
       // Pass tutorialTargets and tutorialContent to the ViewModel
-      viewModel.showTutorialIfNotShown(context, tutorialTargets, tutorialContent, () {
+      viewModel.showTutorialIfNotShown(
+          context, tutorialTargets, tutorialContent, () {
         print("Tutorial finished");
       });
     });
@@ -77,6 +78,13 @@ class _NextPgState extends State<NextPg> {
                 iconSize: 32,
                 color: Colors.blue,
               ),
+            if (!showPrevious)
+              IconButton(
+                onPressed: () => {viewModel.prevpg(context)},
+                icon: const Icon(Icons.arrow_circle_left),
+                iconSize: 32,
+                color: Colors.blue,
+              ),
             if (showNext)
               IconButton(
                 onPressed: viewModel.next,
@@ -84,6 +92,14 @@ class _NextPgState extends State<NextPg> {
                 iconSize: 32,
                 color: Colors.blue,
               ),
+            if (!showNext)
+              ElevatedButton(
+                  onPressed: () => {viewModel.complete()},
+                  child: Text('Done'),
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white))),
           ],
         ),
       ],

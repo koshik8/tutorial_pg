@@ -18,11 +18,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
   final GlobalKey keyIdeas = GlobalKey();
   final GlobalKey keyProfile = GlobalKey();
 
+  var tutorialTargets;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final tutorialTargets = [
+      tutorialTargets = [
         TutorialTarget(
           identify: "Home",
           keyTarget: keyHome,
@@ -56,8 +58,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
       viewModel.showTutorial(context, onFinish: () {
         print("Tutorial finished");
       });
+      viewModel.setmethod(reinit);
     });
   }
+
+  void reinit() {
+    setState(() {
+      print("reinit");
+      viewModel.initTargets(tutorialTargets, tutorialContent);
+      viewModel.showTutorial(context, onFinish: () {
+        print("Tutorial finished");
+      });
+    });
+  }
+  
 
   Widget tutorialContent(String text, bool showNext, bool showPrevious) {
     return Column(
@@ -96,6 +110,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
                 iconSize: 32,
                 color: Colors.blue,
               ),
+            if (!showNext)
+              IconButton(
+                onPressed: () => {viewModel.nextPg(context)},
+                icon: const Icon(Icons.arrow_circle_right),
+                iconSize: 32,
+                color: Colors.blue,
+              ),
           ],
         ),
       ],
@@ -105,7 +126,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
         centerTitle: true,
         title: const Text(
           'My Day',
